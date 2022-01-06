@@ -4,35 +4,30 @@ import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_project/model/model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:weather_project/screen/loading2.dart';
+import 'package:weather_project/screen/loading.dart';
 import 'package:weather_project/screen/loading3.dart';
 import 'package:weather_project/screen/loading4.dart';
-import 'package:weather_project/screen/page_ak.dart';
-
-import 'loading.dart';
 
 
 
 
-
-class HomeScreen extends StatefulWidget {
-
+class ak_screen extends StatefulWidget {
   final dynamic parseWeatherData;
   final dynamic parseAirData;
   final dynamic parseWeeklyData;
-  HomeScreen({ this.parseWeatherData, this.parseAirData, this.parseWeeklyData});
-  
+   ak_screen({this.parseWeatherData, this.parseAirData, this.parseWeeklyData});
 
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
+
+   @override
+  _ak_screenState createState() => _ak_screenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  Model model = Model();
+class _ak_screenState extends State<ak_screen> {
+   Model model = Model();
   final controller = ScrollController();
   double offset = 0;
   late String cityName;
-  late dynamic temp;
+  late int temp;
   late String des;
   late double dust1;
   late double dust2;
@@ -41,23 +36,19 @@ class _HomeScreenState extends State<HomeScreen> {
   late Widget icon;
   late Widget wicon;
   late Widget bgi;
-  
-  var date = DateTime.now();
+
+   var date = DateTime.now();
  
   late List <dynamic> sevendays;
   //late Map<String, double> seventemp;
  //late List<double> seventemp;
-  late List<dynamic> sevenmintemp;
-  late List<dynamic> sevenmaxtemp;
+  late List<double> sevenmintemp;
+  late List<double> sevenmaxtemp;
   //var sevenmintemp;
   //var sevenmaxtemp;
   late List<dynamic> sevenid;
 
   var _selectednation;
-
-  //var airData;
-
- // var weeklyData;
   // var sevenid;
   
 
@@ -71,8 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
   
   void updateData(dynamic weatherData, dynamic airData, dynamic weeklyData) {
     cityName = weatherData['name'];
-    if(cityName == 'Seoul'){
-         cityName = '서울';
+    if(cityName == 'Herne Bay'){
+         cityName = '오클랜드';
     }
     double temp2 = weatherData['main']['temp'].toDouble();
     int condition = weatherData['weather'][0]['id'];
@@ -86,6 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
       des ='뭉게 구름';
     }else if(des == 'overcast clouds'){
       des ='흐린 구름';
+    }else if(des == 'scattered clouds'){
+      des = '얕은 구름';
     }
     dust1 = airData['list'][0]['components']['pm10'];
     dust2 = airData['list'][0]['components']['pm2_5'];
@@ -99,24 +92,23 @@ class _HomeScreenState extends State<HomeScreen> {
   //  cbgi = model.cardbackgroundimage(condition);
     
     sevendays = [];
-    for(int i = 1; i < 8; i++){
+    for(int i = 0; i < 8; i++){
       sevendays.add((weeklyData['daily'][i]['dt']),);
        print((weeklyData['daily'][i]['dt']));
      // sevendays.add(weeklyData['daily'][i]['temp']['day']);
       print(sevendays);
     }
      sevenmintemp = [];
-    for(int i = 1; i< 8; i++){
+    for(int i = 0; i< 8; i++){
       sevenmintemp.add((weeklyData['daily'][i]['temp']['min']));
       print(weeklyData['daily'][i]['temp']['min']);
     }
       sevenmaxtemp = [];
-    for(int i = 1; i< 8; i++){
+    for(int i = 0; i< 8; i++){
       sevenmaxtemp.add((weeklyData['daily'][i]['temp']['max']));
       print(weeklyData['daily'][i]['temp']['max']);
     }
-    //print(sevendays);
- //   int wcondition = sevenid[0];
+
     sevenid = [];
      for(int i = 0; i< 8; i++){
       sevenid.add((weeklyData['daily'][i]['weather'][0]['id']));
@@ -126,17 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
     wicon = model.getWeekIcon(sevenid[i]);
     }
    
-   // wicon = model.getWeekIcon(wcondition);
-   // wicon = model.getWeekIcon(wcondition);
-
-    // sevenid.forEach((element) {
-    //   if (element < 300) {
-    //    return SvgPicture.asset(
-    //      'svg/climacon-colud_lightning.svg',
-    //      color: Colors.yellow[700],
-    //    );
-    //   }     
-    //  });
+ 
   
   
     print(temp);
@@ -163,9 +145,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(      
         backgroundColor: Colors.transparent,
@@ -181,10 +164,11 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.location_searching,
             ),
             onPressed: () {
-                  Navigator.push(
+               Navigator.push(
                        context,
                        MaterialPageRoute(builder: (context) => location()),
                      );
+              
             },
             iconSize: 30.0,
           )
@@ -215,14 +199,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Row(
                               children: [
-                                  Text(
-                                  '(현재 위치)',
-                                  style: GoogleFonts.lato(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                SizedBox(width:160,),
+                                //   Text(
+                                //   '(현재 위치)',
+                                //   style: GoogleFonts.lato(
+                                //       fontSize: 12.0,
+                                //       fontWeight: FontWeight.bold,
+                                //       color: Colors.white),
+                                // ),
+                                SizedBox(width:260,),
            DropdownButton(
              style: const TextStyle(color: Colors.red),
               value: _selectednation,
@@ -232,11 +216,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 switch(value){
                   case "오클랜드" :
                     var weatherData;
-                    
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => location2()),
-                    );                 
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => location2()),
+                    // );
                     break;
                   case "도쿄" :
                      Navigator.push(
@@ -286,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                             Row(
-                              children: [
+                             children: [
                                 // TimerBuilder.periodic(
                                 //   (Duration(minutes: 1)),
                                 //   builder: (context) {
@@ -539,12 +522,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ).toList();
     }
   }
-
-
-
-
-
-
 
 
 

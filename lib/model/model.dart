@@ -1,5 +1,6 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Model {
   Widget getWeatherIcon(int condition) {
@@ -122,7 +123,7 @@ class Model {
   Widget backgroundimage(int condition) {
     if (condition < 300) {
       return Image.asset(
-              'assets/images/sunny.jpg',
+              'assets/images/sunny.jpg', //라이트닝사진으료교체예정
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
@@ -176,23 +177,35 @@ class Model {
         height: 35.0,
       );
     }else if (wcondition == 800) {
+      // return Text(
+      //   '맑음',
+      //    style: GoogleFonts.lato(
+      //      fontSize: 12.0,      
+      //     color: Colors.white),
+      // );
       return SvgPicture.asset(
         'svg/climacon-sun.svg',
         color: Colors.yellow[700],
          width: 37.0,
         height: 35.0,
       );
-    } else if (wcondition <= 804) {
-      return SvgPicture.asset(
-        'svg/climacon-cloud_sun.svg',
-        color: Colors.blue[400],
-         width: 37.0,
-        height: 35.0,
-      );
-    } else if (wcondition == 803) {
+    }  else if (wcondition == 803) {
       return SvgPicture.asset(
         'svg/climacon-cloud_moon.svg',
         color: Colors.indigo[300],
+         width: 37.0,
+        height: 35.0,
+      );
+    } else if (wcondition <= 804) {
+      //     return Text(
+      //   '구름구름',
+      //    style: GoogleFonts.lato(
+      //      fontSize: 12.0,      
+      //     color: Colors.white),
+      // );
+      return SvgPicture.asset(
+        'svg/climacon-cloud_sun.svg',
+        color: Colors.blue[400],
          width: 37.0,
         height: 35.0,
       );
